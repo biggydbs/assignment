@@ -1,0 +1,11 @@
+# Flask stuff:
+instance/
+.webassets-cache
+
+# python compiled byte code
+*.pyc
+
+# virtualenv
+.venv/
+venv/
+ENV/
