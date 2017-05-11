@@ -1,0 +1,82 @@
+.table-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+table {
+	border : 2px solid SlateGray;
+}
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+tr:nth-child(odd) { background: WhiteSmoke; }
+tr:nth-child(1) {  }
+tr:nth-child(2) {  }
+tr:nth-child(3) {  }
+
+thead {
+  tr{
+   background: SlateGray !important;
+   color: WhiteSmoke;
+  }
+}
+
+tfoot {
+  tr{
+   background: SlateGray  !important;
+   color: WhiteSmoke;
+  }
+}
+
+
+td, th {
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
+  border: 0px !important;
+  vertical-align: middle !important ;
+}
+
+tfoot {
+td, th {
+  padding: 1em !important;
+}
+}
+
+
+th {
+  font-family: 'Black Ops One', cursive;
+}
+
+tr{
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.5em;
+  color: SlateGray;
+  
+  td:nth-child(1) { padding-left: 1.5em !important;  }
+  td:nth-child(2) { padding-left: 0em !important; color: rebeccapurple;}
+  td:nth-child(3) { text-align: right ; width: 60% ; padding-right: 1.5em !important; }
+  
+  th:nth-child(1) { padding-left: 1.5em !important; }
+  th:nth-child(2) { padding-left: 0em !important; }
+  th:nth-child(3) { text-align: right ; width: 20%;  padding-right: 1.5em !important;}
+}  
+
+.circle {
+  font-family: 'Black Ops One', cursive;
+  font-size: 1.5em;
+  width: 45px !important;
+  height: 45px !important;
+  background: DimGray ;
+  color: white;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  border-radius:100%;
+}
+
+thead,tr {
+	border-bottom: 5px solid slategray;
+}

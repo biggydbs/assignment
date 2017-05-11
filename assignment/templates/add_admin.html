@@ -1,0 +1,35 @@
+<html>
+<head>
+  <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+</head>
+<body>
+{% if error %}
+  {{error}}
+{% endif %}
+<div>
+<center>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.home')}}">Home</a></button>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.logout')}}">Logout</a></button>
+
+
+<div class="login-page">
+  <div class="form">
+    <form class="login-form" name="add_admin" method="post"  action="{{url_for('application.add_admin')}}" accept-charset="UTF-8" validate>
+      <input type="text" placeholder="First Name" name="first_name" value="{{request.form['first_name']}}" required/>	
+      <input type="text" placeholder="Last Name" name="last_name" value="{{request.form['last_name']}}" required/>
+      <input type="text" placeholder="Email" name="email" value="{{request.form['email']}}" required/>
+      <input type="text" placeholder="Gender" name="gender" value="{{request.form['gender']}}" required/>
+      <input type="text" placeholder="Adress" name="address" value="{{request.form['address']}}" required/>
+      <button>Add Admin</button>
+    </form>
+  </div>
+</div>
+<div>
+</center>
+</body>
+</html>

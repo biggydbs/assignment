@@ -1,0 +1,38 @@
+<html>
+<body>
+{% if error %}
+  {{error }}
+{% endif %}
+<div>
+<center>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.dashboard')}}">Dashboard</a></button>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.add_admin')}}">Add Admin</a></button>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.add_manager')}}">Add Manager</a></button>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.edit_products')}}">Edit Products</a></button>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.show_products')}}">Show Products</a></button>
+<br>
+<br>
+<br>
+<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.logout')}}">Logout</a></button>
+
+
+
+</center>
+<div>
+</body>
+</html>

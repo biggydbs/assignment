@@ -1,0 +1,21 @@
+
+<html>
+<head>
+  <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+</head>
+<body>
+{% if error %}
+  {{ error }}
+{% endif %}
+
+<div class="login-page">
+  <div class="form">
+    <form class="login-form" name="Login" method="post"  action="{{url_for('application.login_manager')}}" accept-charset="UTF-8" validate>
+      <input type="text" placeholder="email" name="email" value="{{request.form['email']}}" required/>
+      <button>login</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

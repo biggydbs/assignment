@@ -1,0 +1,2 @@
+export MAIL_USERNAME="<email_id>"
+export MAIL_PASSWORD="<password>"
