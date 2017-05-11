@@ -16,7 +16,12 @@ app.config.from_object('config')
 
 app.config.update(
 	PROFILE_IMAGE = ROOT_DIR + "/static/profiles/profile_pic/",
-	PRODUCT_IMAGES = ROOT_DIR + "/static/product_images/"
+	PRODUCT_IMAGES = ROOT_DIR + "/static/product_images/",
+	aws_access_key_id = "AKIAJ3OOAK6VSJ4QN6IA",
+	aws_secret_access_key = "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",
+	bucket_name = "hitesh-jain",
+	REGION_HOST = "ap-south-1",
+	s3_upload_directory = "/hitesh/"
 )
 
 mail = Mail(app)

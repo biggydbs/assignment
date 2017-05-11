@@ -30,3 +30,4 @@ MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER',"cinchire@gmail.com")
 
 WEB_URL = "http://127.0.0.1:5000/"
+

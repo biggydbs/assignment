@@ -9,8 +9,22 @@ from werkzeug import secure_filename
 import os
 from random import randint
 from shutil import rmtree
+import boto
+from boto.s3.connection import OrdinaryCallingFormat
+from boto.s3.key import Key
 
 main_blueprint = Blueprint('application', __name__)
+
+def get_s3_bucket():
+	REGION_HOST = app.config["REGION_HOST"]
+	s3_upload_directory = app.config["s3_upload_directory"]
+	aws_access_key_id = app.config["aws_access_key_id"]
+	aws_secret_access_key = app.config["aws_secret_access_key"]
+	s3 = boto.s3.connect_to_region(region_name=REGION_HOST, aws_access_key_id=aws_access_key_id, 
+		aws_secret_access_key=aws_secret_access_key, calling_format = boto.s3.connection.OrdinaryCallingFormat())
+	bucket_name = app.config["bucket_name"]
+	bucket = s3.get_bucket(bucket_name)
+	return bucket
 
 @main_blueprint.route("/login_admin", methods=["GET","POST"])
 def login_admin():
@@ -113,7 +127,6 @@ def add_manager():
 		address = request.form["address"]
 		contact_no = request.form["contact_no"]
 		profile_pic = request.files["profile_picture"]
-		
 		code = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(6))
 		check_manager = managers.find_one({"email":email})
 		if check_manager == None:
@@ -121,12 +134,18 @@ def add_manager():
 			if check_admin == None:
 				if "@" in email:
 					if profile_pic:
+						file_contents = profile_pic.read()
 						file_name = secure_filename(profile_pic.filename)
 						filetype = file_name.split(".")[1]
 						if filetype == "jpg" or filetype == "png" or filetype == "jpeg":
 							actual_filename = code + "." + filetype
-							profile_pic.save(os.path.join(app.config["PROFILE_IMAGE"],file_name))
-							os.rename(os.path.join(app.config["PROFILE_IMAGE"],file_name),os.path.join(app.config["PROFILE_IMAGE"],actual_filename))
+							#profile_pic.save(os.path.join(app.config["PROFILE_IMAGE"],file_name))
+							#os.rename(os.path.join(app.config["PROFILE_IMAGE"],file_name),os.path.join(app.config["PROFILE_IMAGE"],actual_filename))
+							bucket = get_s3_bucket()
+							k = Key(bucket)
+							k.key = actual_filename
+							k.set_contents_from_string(file_contents)
+
 							managers.insert_one({
 								"email":email,
 								"first_name":first_name,
@@ -169,9 +188,11 @@ def dashboard():
 		address = check_manager["address"]
 		contact_no = check_manager["contact_no"]
 		profile_pic = check_manager.get("profile_pic", None)
-		profile_pic = "/static/profiles/profile_pic/" + profile_pic + "?r=" + str(randint(1,10000000))
+		bucket = get_s3_bucket()
+		plans_key = bucket.get_key(profile_pic)
+		plans_url = plans_key.generate_url(3600, query_auth=True, force_http=True)
 		return render_template("dashboard.html", name=name, email=session["email"],
-			gender=gender, address=address, contact_no=contact_no, profile_pic=profile_pic)
+			gender=gender, address=address, contact_no=contact_no, profile_pic=plans_url)
 	return render_template("home.html")
 
 @main_blueprint.route("/edit_products")
@@ -207,16 +228,22 @@ def add_product():
 		product_image = request.files.getlist("product_image[]")
 		product_images = []
 		ct = 1
-		directory = app.config["PRODUCT_IMAGES"] + code + "/"
-		if not os.path.exists(directory):
-			os.makedirs(directory)
+		#directory = app.config["PRODUCT_IMAGES"] + code + "/"
+		#if not os.path.exists(directory):
+			#os.makedirs(directory)
+		bucket = get_s3_bucket()
+		
 		for i in product_image:
+			file_contents = i.read()
 			file_name = secure_filename(i.filename)
 			filetype = file_name.split(".")[1]
 			if filetype == "jpg" or filetype == "png" or filetype == "jpeg":
 				actual_filename = code + "_" + str(ct) + "." + filetype
-				i.save(os.path.join(directory,file_name))
-				os.rename(os.path.join(directory,file_name),os.path.join(directory,actual_filename))
+				#i.save(os.path.join(directory,file_name))
+				#os.rename(os.path.join(directory,file_name),os.path.join(directory,actual_filename))
+				k = Key(bucket)
+				k.key = actual_filename
+				k.set_contents_from_string(file_contents)
 				ct += 1	
 				product_images.append(actual_filename)	
 		products.insert_one({
@@ -229,7 +256,7 @@ def add_product():
 			})
 		html = render_template("notification.html", email=session["email"])
 		subject = "New Product Added"
-		send_email(to, subject, html)
+		#send_email(to, subject, html)
 
 		return render_template("add_product.html", error="Product Added")
 
@@ -250,19 +277,29 @@ def update_product(product_id):
 		quantity = request.form["quantity"]
 		product_image = request.files.getlist("product_image[]")
 		product_images = []
-		directory = app.config["PRODUCT_IMAGES"] + product_id + "/"
-		if not os.path.exists(directory):
-			os.makedirs(directory)
+		bucket = get_s3_bucket()
+		#directory = app.config["PRODUCT_IMAGES"] + product_id + "/"
+		#if not os.path.exists(directory):
+			#os.makedirs(directory)
 		for i in product_image:
+			if i.filename == "":
+				break
+			file_contents = i.read()
 			file_name = secure_filename(i.filename)
 			filetype = file_name.split(".")[1]
 			if filetype == "jpg" or filetype == "png" or filetype == "jpeg":
 				actual_filename = product_id + "_" + str(cur_images_count) + "." + filetype
-				i.save(os.path.join(directory,file_name))
-				os.rename(os.path.join(directory,file_name),os.path.join(directory,actual_filename))
+				#i.save(os.path.join(directory,file_name))
+				#os.rename(os.path.join(directory,file_name),os.path.join(directory,actual_filename))
+				k = Key(bucket)
+				k.key = actual_filename
+				k.set_contents_from_string(file_contents)
 				cur_images_count += 1	
 				product_images.append(actual_filename)
-		all_images = product_info["product_images"] + product_images
+		if product_info["product_images"] != []:
+			all_images = product_info["product_images"] + product_images
+		else:
+			all_images = product_info["product_images"]
 		products.update_one({"code":product_id},{"$set":{
 			"code" : product_id,
 			"title":title,
@@ -279,9 +316,12 @@ def update_product(product_id):
 			return render_template("update_product.html", error="Product Not Found")
 		product_images = []
 		count_images = 0
+		bucket = get_s3_bucket()
 		for each in product_info["product_images"]:
 			count_images += 1
-			product_images.append("/static/product_images/" + product_id + "/" + each + "?r=" + str(randint(1,10000000)))
+			plans_key = bucket.get_key(each)
+			plans_url = plans_key.generate_url(3600, query_auth=True, force_http=True)
+			product_images.append(plans_url)
 		title=product_info["title"]
 		description=product_info["description"]
 		price=product_info["price"]
@@ -296,10 +336,8 @@ def update_product(product_id):
 def delete_product(product_id):
 	if session["user"] != "manager":
 		return render_template("home.html", error="You are not manager")
-	directory = app.config["PRODUCT_IMAGES"] + product_id + "/"
 	products = db.products
 	products.remove({"code":product_id})
-	rmtree(directory)
 	return redirect(url_for("application.edit_products"))
 
 @main_blueprint.route("/show_products")
