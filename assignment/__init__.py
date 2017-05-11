@@ -18,8 +18,7 @@ app.config.update(
 	aws_access_key_id = "AKIAJ3OOAK6VSJ4QN6IA",
 	aws_secret_access_key = "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",
 	bucket_name = "hitesh-jain",
-	REGION_HOST = "ap-south-1",
-	s3_upload_directory = "/hitesh/"
+	REGION_HOST = "ap-south-1"
 )
 
 mail = Mail(app)
