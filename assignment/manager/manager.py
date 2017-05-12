@@ -6,9 +6,9 @@ from assignment.decorators import login_required
 from assignment.utils import send_email, get_s3_bucket
 from flask import Blueprint, render_template, request, url_for, session, redirect
 
-product_blueprint = Blueprint('product', __name__)
+manager_blueprint = Blueprint('manager', __name__)
 
-@product_blueprint.route("/edit_products")
+@manager_blueprint.route("/edit_products")
 @login_required
 def edit_products():
 	if session["user"] != "manager":
@@ -20,7 +20,7 @@ def edit_products():
 		products_list.append(each)
 	return render_template("edit_products.html", products_list=products_list, error=None)
 
-@product_blueprint.route("/add_product", methods=["GET","POST"])
+@manager_blueprint.route("/add_product", methods=["GET","POST"])
 @login_required
 def add_product():
 	if session["user"] != "manager":
@@ -64,13 +64,13 @@ def add_product():
 			})
 		html = render_template("notification.html", email=session["email"])
 		subject = "New Product Added"
-		send_email(to, subject, html)
+		#send_email(to, subject, html)
 
 		return render_template("add_product.html", error="Product Added")
 
 	return render_template("add_product.html", error=None)
 
-@product_blueprint.route("/update_product/<product_id>/", methods=["GET","POST"])
+@manager_blueprint.route("/update_product/<product_id>/", methods=["GET","POST"])
 @login_required
 def update_product(product_id):
 	products = db.products
@@ -111,7 +111,7 @@ def update_product(product_id):
 			"quantity":quantity,
 			"product_images":all_images,
 			}})
-		return redirect(url_for("product.update_product", product_id=product_id))
+		return redirect(url_for("manager.update_product", product_id=product_id))
 		
 	else:
 		product_info = products.find_one({"code":product_id})
@@ -132,16 +132,16 @@ def update_product(product_id):
 		return render_template("update_product.html", product_images=product_images, count_images=count_images, 
 			price=price, description=description, title=title, quantity=quantity ,product_id=product_id)
 
-@product_blueprint.route("/delete_product/<product_id>/", methods=["GET","POST"])
+@manager_blueprint.route("/delete_product/<product_id>/", methods=["GET","POST"])
 @login_required
 def delete_product(product_id):
 	if session["user"] != "manager":
 		return render_template("home.html", error="You are not manager")
 	products = db.products
 	products.remove({"code":product_id})
-	return redirect(url_for("product.edit_products"))
+	return redirect(url_for("manager.edit_products"))
 
-@product_blueprint.route("/show_products")
+@manager_blueprint.route("/show_products")
 @login_required
 def show_products():
 	products = db.products

@@ -14,10 +14,10 @@
                 <br><br>
                 <button type="submit" class="btn btn-primary"><a href ="{{url_for('users.logout')}}">Logout</a></button>
                 <br><br>
-                <button type="submit" class="btn btn-primary"><a href ="{{url_for('product.edit_products')}}">Edit Products</a></button>
+                <button type="submit" class="btn btn-primary"><a href ="{{url_for('manager.edit_products')}}">Edit Products</a></button>
                 <div class="login-page">
                     <div class="form">
-                        <form class="login-form" name="update_product" method="post"  action="{{url_for('product.update_product',product_id=product_id)}}" enctype="multipart/form-data" accept-charset="UTF-8" validate>
+                        <form class="login-form" name="update_product" method="post"  action="{{url_for('manager.update_product',product_id=product_id)}}" enctype="multipart/form-data" accept-charset="UTF-8" validate>
                             <input type="text" placeholder="Title" name="title" value="{{title}}" required/>	
                             <input type="text" placeholder="Description" name="description" value="{{description}}" required/>
                             <input type="text" placeholder="Price" name="price" value="{{price}}" required/>

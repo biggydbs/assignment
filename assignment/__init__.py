@@ -32,5 +32,8 @@ app.register_blueprint(main_blueprint)
 from assignment.users.users import users_blueprint
 app.register_blueprint(users_blueprint)
 
-from assignment.products.products import product_blueprint
-app.register_blueprint(product_blueprint)
+from assignment.admin.admin import admin_blueprint
+app.register_blueprint(admin_blueprint)
+
+from assignment.manager.manager import manager_blueprint
+app.register_blueprint(manager_blueprint)
