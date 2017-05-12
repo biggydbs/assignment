@@ -63,7 +63,7 @@ def add_product():
 			})
 		html = render_template("notification.html", email=session["email"])
 		subject = "New Product Added"
-		#send_email(to, subject, html)
+		send_email(to, subject, html)
 		return render_template("add_product.html", error="Product Added")
 	return render_template("add_product.html", error=None)
 
