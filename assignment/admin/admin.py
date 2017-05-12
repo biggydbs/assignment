@@ -2,8 +2,8 @@ import random, string
 from assignment import db
 from boto.s3.key import Key
 from werkzeug import secure_filename
-from assignment.utils import get_s3_bucket, validate
 from assignment.decorators import login_required
+from assignment.utils import get_s3_bucket, validate
 from flask import Blueprint, render_template, request, url_for, session, redirect
 
 admin_blueprint = Blueprint('admin', __name__)
