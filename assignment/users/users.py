@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, url_for, session, redirect
-from assignment.decorators import login_required
 from assignment import db
+from assignment.decorators import login_required
+from flask import Blueprint, render_template, request, url_for, session, redirect
 
 users_blueprint = Blueprint('users', __name__)
 

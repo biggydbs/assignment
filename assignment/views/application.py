@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request, url_for, session, redirect
-from assignment.decorators import login_required
-from assignment import db
-from assignment.utils import get_s3_bucket
 import random, string
-from werkzeug import secure_filename
+from assignment import db
 from boto.s3.key import Key
+from werkzeug import secure_filename
+from assignment.utils import get_s3_bucket, validate
+from assignment.decorators import login_required
+from flask import Blueprint, render_template, request, url_for, session, redirect
 
 main_blueprint = Blueprint('application', __name__)
 
@@ -26,7 +26,7 @@ def add_admin():
 			check_manager = managers.find_one({"email":email})
 			if check_manager == None:
 				code = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(6))
-				if "@" in email:
+				if validate(email):
 					admins.insert_one({
 						"email":email,
 						"first_name":first_name,
@@ -64,7 +64,7 @@ def add_manager():
 		if check_manager == None:
 			check_admin = admins.find_one({"email":email})
 			if check_admin == None:
-				if "@" in email:
+				if validate(email):
 					if profile_pic:
 						file_contents = profile_pic.read()
 						file_name = secure_filename(profile_pic.filename)

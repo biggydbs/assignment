@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request, url_for, session, redirect
-from assignment.decorators import login_required
-from assignment import db
-from assignment.utils import send_email, get_s3_bucket
 import random, string
-from werkzeug import secure_filename
+from assignment import db
 from boto.s3.key import Key
+from werkzeug import secure_filename
+from assignment.decorators import login_required
+from assignment.utils import send_email, get_s3_bucket
+from flask import Blueprint, render_template, request, url_for, session, redirect
 
 product_blueprint = Blueprint('product', __name__)
 
