@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect
 from assignment.decorators import login_required
 from assignment import db
-from boto.s3.key import Key
 
 users_blueprint = Blueprint('users', __name__)
 
