@@ -30,9 +30,9 @@ def add_product():
 		managers = db.managers
 		get_all_managers = managers.find({},{"_id":0,"email":1})
 		to = []
-		for i in get_all_managers:
-			if i["email"] != session["email"]:
-				to.append(str(i["email"]))
+		for each_manager in get_all_managers:
+			if each_manager["email"] != session["email"]:
+				to.append(str(each_manager["email"]))
 		code = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(9))
 		title = request.form["title"]
 		description = request.form["description"]
@@ -42,10 +42,9 @@ def add_product():
 		product_images = []
 		ct = 1
 		bucket = get_s3_bucket()
-		
-		for i in product_image:
-			file_contents = i.read()
-			file_name = secure_filename(i.filename)
+		for each_image in product_image:
+			file_contents = each_image.read()
+			file_name = secure_filename(each_image.filename)
 			filetype = file_name.split(".")[1]
 			if filetype == "jpg" or filetype == "png" or filetype == "jpeg":
 				actual_filename = code + "_" + str(ct) + "." + filetype
@@ -65,9 +64,7 @@ def add_product():
 		html = render_template("notification.html", email=session["email"])
 		subject = "New Product Added"
 		#send_email(to, subject, html)
-
 		return render_template("add_product.html", error="Product Added")
-
 	return render_template("add_product.html", error=None)
 
 @manager_blueprint.route("/update_product/<product_id>/", methods=["GET","POST"])
@@ -86,11 +83,11 @@ def update_product(product_id):
 		product_image = request.files.getlist("product_image[]")
 		product_images = []
 		bucket = get_s3_bucket()
-		for i in product_image:
-			if i.filename == "":
+		for each_image in product_image:
+			if each_image.filename == "":
 				break
-			file_contents = i.read()
-			file_name = secure_filename(i.filename)
+			file_contents = each_image.read()
+			file_name = secure_filename(each_image.filename)
 			filetype = file_name.split(".")[1]
 			if filetype == "jpg" or filetype == "png" or filetype == "jpeg":
 				actual_filename = product_id + "_" + str(cur_images_count) + "." + filetype
