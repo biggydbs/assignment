@@ -1,48 +1,41 @@
 <html>
-<head>
-  <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
-</head>
-<body>
-{% if error %}
-  {{error }}
-{% endif %}
-<div>
-<center>
-<br>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.home')}}">Home</a></button>
+    <head>
+        <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        {% if error %}
+        {{error }}
+        {% endif %}
+        <div>
+            <center>
+                <br><br><br>
+                <button type="submit" class="btn btn-primary"><a href ="{{url_for('users.home')}}">Home</a></button>
+                <br><br>
+                <button type="submit" class="btn btn-primary"><a href ="{{url_for('users.logout')}}">Logout</a></button>
+                <br><br>
+                <button type="submit" class="btn btn-primary"><a href ="{{url_for('product.edit_products')}}">Edit Products</a></button>
+                <div class="login-page">
+                    <div class="form">
+                        <form class="login-form" name="update_product" method="post"  action="{{url_for('product.update_product',product_id=product_id)}}" enctype="multipart/form-data" accept-charset="UTF-8" validate>
+                            <input type="text" placeholder="Title" name="title" value="{{title}}" required/>	
+                            <input type="text" placeholder="Description" name="description" value="{{description}}" required/>
+                            <input type="text" placeholder="Price" name="price" value="{{price}}" required/>
+                            <input type="text" placeholder="Quantity" name="quantity" value="{{quantity}}" required/>
 
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.logout')}}">Logout</a></button>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.edit_products')}}">Edit Products</a></button>
-<div class="login-page">
-  <div class="form">
-    <form class="login-form" name="update_product" method="post"  action="{{url_for('application.update_product',product_id=product_id)}}" enctype="multipart/form-data" accept-charset="UTF-8" validate>
-      <input type="text" placeholder="Title" name="title" value="{{title}}" required/>	
-      <input type="text" placeholder="Description" name="description" value="{{description}}" required/>
-      <input type="text" placeholder="Price" name="price" value="{{price}}" required/>
-      <input type="text" placeholder="Quantity" name="quantity" value="{{quantity}}" required/>
-      
-      <input type="file" name="product_image[]" id="product_image" multiple />
-      
-      <button>Update Product</button>
-    </form>
-  </div>
-</div>
-<h2> Current Images </h2>
-{% if count_images %}
-	{% for each in product_images %}
-		<br>
-		<img src="{{each}}" alt="image" height="75px" width="75px" />
-		<br>
-	{% endfor %}
-{% endif %}
-</center>
-<div>
-</body>
+                            <input type="file" name="product_image[]" id="product_image" multiple />
+
+                            <button>Update Product</button>
+                        </form>
+                    </div>
+                </div>
+                <h2> Current Images </h2>
+                {% if count_images %}
+                    {% for each in product_images %}
+                        <br><img src="{{each}}" alt="image" height="75px" width="75px" /><br>
+                    {% endfor %}
+                {% endif %}
+            </center>
+        <div>
+    </body>
 </html>

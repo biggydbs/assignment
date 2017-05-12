@@ -1,73 +1,65 @@
 <html>
-<head>
-  <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
-</head>
-<body>
-{% if error %}
-  {{error }}
-{% endif %}
-<div>
-<center>
-<br>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.home')}}">Home</a></button>
-
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.logout')}}">Logout</a></button>
-
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.add_product')}}">Add Product</a></button>
-<br>
-<br>
-<br>
-<div class="container-fluid">
-	<div class="table-wrap">  
-		<div class="table-responsive">
-	      	<table class="table">
-		        <thead>
-		            <tr>
-		                <th>Title</th>
-		                <th>Description</th>
-		                <th>Price</th>
-		                <th>Quantity</th>  
-		                <th>Update</th>
-		                <th>Delete</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-		            {% for each in products_list %}
-		            <tr>
-		                <td>
-		                    <div class="circle">
-		                        {{ each.title }}
-		                    </div>
-		                </td>
-		                <td>
-		                    {{ each.description }}
-		                </td>
-		                <td >
-		                    {{ each.price }}
-		                </td>
-		                <td>
-		                    {{ each.quantity }}
-		                </td>
-		                <td>
-		                	<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.update_product', product_id=each.code)}}">Update Product</a></button>
-		                </td>
-		                <td>
-		                	<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.delete_product', product_id=each.code)}}">Delete Product</a></button>
-		                </td>
-		            </tr>
-		            {% endfor %}
-		        </tbody>
-    		</table>
-		</div>
-	</div>
-</div>
-</center>
-<div>
-</body>
+	<head>
+		<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+	</head>
+	<body>
+	{% if error %}
+	{{error }}
+	{% endif %}
+		<div>
+			<center>
+				<br><br><br>
+				<button type="submit" class="btn btn-primary"><a href ="{{url_for('users.home')}}">Home</a></button>
+				<br><br>
+				<button type="submit" class="btn btn-primary"><a href ="{{url_for('users.logout')}}">Logout</a></button>
+				<br><br>
+				<button type="submit" class="btn btn-primary"><a href ="{{url_for('product.add_product')}}">Add Product</a></button>
+				<br><br><br>
+				<div class="container-fluid">
+					<div class="table-wrap">  
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Title</th>
+										<th>Description</th>
+										<th>Price</th>
+										<th>Quantity</th>  
+										<th>Update</th>
+										<th>Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for each in products_list %}
+										<tr>
+											<td>
+												<div class="circle">
+													{{ each.title }}
+												</div>
+											</td>
+											<td>
+												{{ each.description }}
+											</td>
+											<td >
+												{{ each.price }}
+											</td>
+											<td>
+												{{ each.quantity }}
+											</td>
+											<td>
+												<button type="submit" class="btn btn-primary"><a href ="{{url_for('product.update_product', product_id=each.code)}}">Update Product</a></button>
+											</td>
+											<td>
+												<button type="submit" class="btn btn-primary"><a href ="{{url_for('product.delete_product', product_id=each.code)}}">Delete Product</a></button>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</center>
+		<div>
+	</body>
 </html>

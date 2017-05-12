@@ -1,23 +1,19 @@
 <html>
-<body>
-<br>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.home')}}">Home</a></button>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.logout')}}">Logout</a></button>
+	<body>
+		<br><br><br>
+		<button type="submit" class="btn btn-primary"><a href ="{{url_for('users.home')}}">Home</a></button>
+		<br><br>
+		<button type="submit" class="btn btn-primary"><a href ="{{url_for('users.logout')}}">Logout</a></button>
 
-<h1>Name : {{name}}</h1>
-<h2>Email : {{email}}</h2>
-<h3>Gender : {{gender}}</h2>
-<h4>Address : {{address}}</h2>
-{% if contact_no %}
-	<h4> Contact Number : {{contact_no}}</h4>
-{% endif %}
-{% if profile_pic %}
-	<img src="{{profile_pic}}" alt="image" height="75px" width="75px" />
-{% endif %}
-
-</body>
+		<h1>Name : {{name}}</h1>
+		<h2>Email : {{email}}</h2>
+		<h3>Gender : {{gender}}</h2>
+		<h4>Address : {{address}}</h2>
+		{% if contact_no %}
+		<h4> Contact Number : {{contact_no}}</h4>
+		{% endif %}
+		{% if profile_pic %}
+		<img src="{{profile_pic}}" alt="image" height="75px" width="75px" />
+		{% endif %}
+	</body>
 </html>

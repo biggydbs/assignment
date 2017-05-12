@@ -1,16 +1,12 @@
 <html>
-<body>
-<div>
-<center>
-<br>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.login_admin')}}">Admin Login</a></button>
-<br>
-<br>
-<br>
-<button type="submit" class="btn btn-primary"><a href ="{{url_for('application.login_manager')}}">Manager Login</a></button>
-</center>
-<div>
-</body>
+	<body>
+		<div>
+			<center>
+				<br><br><br>
+				<button type="submit" class="btn btn-primary"><a href ="{{url_for('users.login_admin')}}">Admin Login</a></button>
+				<br><br><br>
+				<button type="submit" class="btn btn-primary"><a href ="{{url_for('users.login_manager')}}">Manager Login</a></button>
+			</center>
+		<div>
+	</body>
 </html>

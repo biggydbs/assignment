@@ -5,11 +5,6 @@ from flask_mail import Mail
 
 app = Flask(__name__)
 
-@app.errorhandler(404)
-def page_not_found(e):
-	error = "Template Not Found"
-	return render_template('404.html',error=error), 404
-
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app.config.from_object('config')
@@ -26,5 +21,16 @@ mail = Mail(app)
 client = MongoClient(app.config["MONGODB_SERVER"], app.config["MONGODB_PORT"])
 db = client["assignment"]
 
+@app.errorhandler(404)
+def page_not_found(e):
+	error = "Template Not Found"
+	return render_template('404.html',error=error), 404
+
 from assignment.views.application import main_blueprint
 app.register_blueprint(main_blueprint)
+
+from assignment.users.users import users_blueprint
+app.register_blueprint(users_blueprint)
+
+from assignment.products.products import product_blueprint
+app.register_blueprint(product_blueprint)
