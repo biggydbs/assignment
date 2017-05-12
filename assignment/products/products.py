@@ -64,7 +64,7 @@ def add_product():
 			})
 		html = render_template("notification.html", email=session["email"])
 		subject = "New Product Added"
-		#send_email(to, subject, html)
+		send_email(to, subject, html)
 
 		return render_template("add_product.html", error="Product Added")
 
@@ -122,9 +122,9 @@ def update_product(product_id):
 		bucket = get_s3_bucket()
 		for each in product_info["product_images"]:
 			count_images += 1
-			plans_key = bucket.get_key(each)
-			plans_url = plans_key.generate_url(3600, query_auth=True, force_http=True)
-			product_images.append(plans_url)
+			bucket_key = bucket.get_key(each)
+			bucket_url = bucket_key.generate_url(3600, query_auth=True, force_http=True)
+			product_images.append(bucket_url)
 		title=product_info["title"]
 		description=product_info["description"]
 		price=product_info["price"]
